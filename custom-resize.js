@@ -7,10 +7,9 @@
         changed = true,
         doc = root.document,
         docElem = doc.documentElement,
-        hasOwnProperty = Object.prototype.hasOwnProperty,
-        orientationSupport = hasOwnProperty.call(root, 'orientationchange'),
         winWidth = root.innerWidth || docElem.clientWidth || doc.body.clientWidth,
         winHeight = root.innerHeight || docElem.clientHeight || doc.body.clientHeight,
+        orientationSupport = Object.prototype.hasOwnProperty.call(root, 'orientationchange'), // prevent IE7 error using prototype
         oldOrientation = winWidth > winHeight ? 'landscape' : 'portrait',
         newOrientation,
         
