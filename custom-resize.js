@@ -13,29 +13,16 @@
         oldOrientation = winWidth > winHeight ? 'landscape' : 'portrait',
         newOrientation,
         
-        // functions
-        updateVars = function () {
-            // update width and height vars by default
-            winWidth = root.innerWidth || docElem.clientWidth || doc.body.clientWidth;
-            winHeight = root.innerHeight || docElem.clientHeight || doc.body.clientHeight;
-            
-            // reset orientation and changed vars for supported devices
-            if (orientationSupport) {
-                newOrientation = winWidth > winHeight ? 'landscape' : 'portait';
-                changed = newOrientation !== oldOrientation;
-                oldOrientation = newOrientation;
-            }
-        },
         callFuncs = function (event) {
             var func;
             for (func in funcs) {
                 if (funcs.hasOwnProperty(func)) {
-                    
                     // call function in the context of the window
                     funcs[func].call(root, event);
                 }
             }
         },
+        
         call = function (event) {
             var func;
             
@@ -47,12 +34,12 @@
             // reset timer
             timer = root.setTimeout(function () {
                 // reset width and height vars
-                winWidth = root.innerWidth || docElem.clientWidth || doc.body.clientWidth;
-                winHeight = root.innerHeight || docElem.clientHeight || doc.body.clientHeight;
+                root.customResize.width = root.innerWidth || docElem.clientWidth || doc.body.clientWidth;
+                root.customResize.height = root.innerHeight || docElem.clientHeight || doc.body.clientHeight;
 
                 // check if orientation has changed for supported devices and reset vars accordingly
                 if (orientationSupport) {
-                    newOrientation = winWidth > winHeight ? 'landscape' : 'portait';
+                    newOrientation = root.customResize.width > root.customResize.height ? 'landscape' : 'portait';
                     changed = newOrientation !== oldOrientation;
                     oldOrientation = newOrientation;
                 }
@@ -94,7 +81,10 @@
                     return true;
                 }
                 return false;
-            }
+            },
+            
+            height: winHeight,
+            width: winWidth
         };
 
     // bind resize event listener
