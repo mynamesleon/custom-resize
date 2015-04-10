@@ -1,15 +1,15 @@
-(function (root) {
+(function () {
     'use strict';
     
     // primary variables
     var timer,
         funcs = {},
         changed = true,
-        doc = root.document,
+        doc = window.document,
         docElem = doc.documentElement,
-        winWidth = root.innerWidth || docElem.clientWidth || doc.body.clientWidth,
-        winHeight = root.innerHeight || docElem.clientHeight || doc.body.clientHeight,
-        orientationSupport = Object.prototype.hasOwnProperty.call(root, 'orientationchange'), // prevent IE7 error using prototype
+        winWidth = window.innerWidth || docElem.clientWidth || doc.body.clientWidth,
+        winHeight = window.innerHeight || docElem.clientHeight || doc.body.clientHeight,
+        orientationSupport = Object.prototype.hasOwnProperty.call(window, 'orientationchange'), // prevent IE7 error using prototype
         oldOrientation = winWidth > winHeight ? 'landscape' : 'portrait',
         newOrientation,
         
@@ -18,7 +18,7 @@
             for (func in funcs) {
                 if (funcs.hasOwnProperty(func)) {
                     // call function in the context of the window
-                    funcs[func].call(root, event);
+                    funcs[func].call(window, event);
                 }
             }
         },
@@ -28,18 +28,18 @@
             
             // clear current timer to enable resize end
             if (timer) {
-                root.clearTimeout(timer);
+                window.clearTimeout(timer);
             }
             
             // reset timer
-            timer = root.setTimeout(function () {
+            timer = window.setTimeout(function () {
                 // reset width and height vars
-                root.customResize.width = root.innerWidth || docElem.clientWidth || doc.body.clientWidth;
-                root.customResize.height = root.innerHeight || docElem.clientHeight || doc.body.clientHeight;
+                window.customResize.width = window.innerWidth || docElem.clientWidth || doc.body.clientWidth;
+                window.customResize.height = window.innerHeight || docElem.clientHeight || doc.body.clientHeight;
 
                 // check if orientation has changed for supported devices and reset vars accordingly
                 if (orientationSupport) {
-                    newOrientation = root.customResize.width > root.customResize.height ? 'landscape' : 'portait';
+                    newOrientation = window.customResize.width > window.customResize.height ? 'landscape' : 'portait';
                     changed = newOrientation !== oldOrientation;
                     oldOrientation = newOrientation;
                 }
@@ -88,12 +88,12 @@
         };
 
     // bind resize event listener
-    if (root.addEventListener) {
-        root.addEventListener('resize', call);
+    if (window.addEventListener) {
+        window.addEventListener('resize', call);
     } else {
-        root.attachEvent('onresize', call);
+        window.attachEvent('onresize', call);
     }
     
-    root.customResize = returnFuncs;
+    window.customResize = returnFuncs;
 
-}(this));
+}());
