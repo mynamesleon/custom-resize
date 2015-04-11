@@ -3,13 +3,14 @@
     
     // primary variables
     var timer,
+        num = 0,
         funcs = {},
         changed = true,
         doc = window.document,
         docElem = doc.documentElement,
         winWidth = window.innerWidth || docElem.clientWidth || doc.body.clientWidth,
         winHeight = window.innerHeight || docElem.clientHeight || doc.body.clientHeight,
-        orientationSupport = Object.prototype.hasOwnProperty.call(window, 'orientationchange'), // prevent IE7 error using prototype
+        orientationSupport = Object.prototype.hasOwnProperty.call(window, 'orientationchange'), // prevent IE7 error by using prototype
         oldOrientation = winWidth > winHeight ? 'landscape' : 'portrait',
         newOrientation,
         
@@ -24,8 +25,6 @@
         },
         
         call = function (event) {
-            var func;
-            
             // clear current timer to enable resize end
             if (timer) {
                 window.clearTimeout(timer);
@@ -60,11 +59,12 @@
             /**
              * Call passed in function on orientation change / window resize end
              * @param {function}: function to be called on orientation change on compatible devices, or resize end
-             * @return {number}: timestamp to identify bound function
+             * @return {number}: function identifier
              */
             bind: function (f) {
-                var t = new Date().getTime();
                 if (typeof f === 'function') {
+                    var t = new Date().getTime() + num + Math.random(); // timestamp + index + random number
+                    num += 1;
                     funcs[t] = f;
                     return t;
                 }
