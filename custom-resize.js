@@ -1,4 +1,4 @@
-/* 
+/*
  * custom orientation change and resize end script
  * Leon Slater
  * http://mynamesleon.com
@@ -20,7 +20,7 @@ window.customResize = window.customResize || new function () {
         oldOrientation = winWidth > winHeight ? 'landscape' : 'portrait',
         newOrientation,
 
-        /* 
+        /*
          * call all functions in funcs object
          */
         callFuncs = function (event) {
@@ -32,7 +32,7 @@ window.customResize = window.customResize || new function () {
             }
         },
 
-        /* 
+        /*
          * primary call
          */
         call = function (event) {
@@ -105,5 +105,5 @@ window.customResize = window.customResize || new function () {
     }
 
     return returnFuncs;
-    
+
 }();
